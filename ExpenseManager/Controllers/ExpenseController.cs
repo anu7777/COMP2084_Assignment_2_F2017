@@ -24,6 +24,10 @@ namespace ExpenseManager.Controllers
         // GET: Expense/Details/5
         public ActionResult Details(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +43,10 @@ namespace ExpenseManager.Controllers
         // GET: Expense/Create
         public ActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Friend_Id = new SelectList(db.Friends, "Id", "Name");
             return View();
         }
@@ -50,6 +58,10 @@ namespace ExpenseManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Amount,SpentOn,Info,Friend_Id")] Expens expens)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (ModelState.IsValid)
             {
                 db.Expenses.Add(expens);
@@ -64,6 +76,10 @@ namespace ExpenseManager.Controllers
         // GET: Expense/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,6 +100,10 @@ namespace ExpenseManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Amount,SpentOn,Info,Friend_Id")] Expens expens)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(expens).State = EntityState.Modified;
@@ -97,6 +117,10 @@ namespace ExpenseManager.Controllers
         // GET: Expense/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +138,10 @@ namespace ExpenseManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             Expens expens = db.Expenses.Find(id);
             db.Expenses.Remove(expens);
             db.SaveChanges();
